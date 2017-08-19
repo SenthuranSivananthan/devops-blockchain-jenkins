@@ -12,9 +12,6 @@ contract('BankAccount', function(accounts) {
     }).then(function() {
       return bank.balanceOf.call(account);
     }).then(function(balance) {
-      console.log(account);
-      console.log(balance.valueOf());
-
       assert.equal(balance.valueOf(), amount, "Expecting " + amount + " as the balance for account.");      
     });
 
