@@ -1,0 +1,95 @@
+{
+  "contract_name": "BankAccount",
+  "abi": [
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "withdraw",
+      "outputs": [
+        {
+          "name": "success",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "accountHolder",
+          "type": "address"
+        }
+      ],
+      "name": "balanceOf",
+      "outputs": [
+        {
+          "name": "balance",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "owner",
+      "outputs": [
+        {
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "deposit",
+      "outputs": [],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "payable": false,
+      "type": "constructor"
+    }
+  ],
+  "unlinked_binary": "0x6060604052341561000f57600080fd5b5b60008054600160a060020a03191633600160a060020a03161790555b5b6101d18061003c6000396000f300606060405263ffffffff7c01000000000000000000000000000000000000000000000000000000006000350416632e1a7d4d811461005e57806370a08231146100885780638da5cb5b146100b9578063b6b55f25146100e8575b600080fd5b341561006957600080fd5b610074600435610100565b604051901515815260200160405180910390f35b341561009357600080fd5b6100a7600160a060020a0360043516610155565b60405190815260200160405180910390f35b34156100c457600080fd5b6100cc610174565b604051600160a060020a03909116815260200160405180910390f35b34156100f357600080fd5b6100fe600435610183565b005b600160a060020a0333166000908152600160205260408120548290038190111561014c5750600160a060020a033316600090815260016020819052604090912080548390039055610150565b5060005b919050565b600160a060020a0381166000908152600160205260409020545b919050565b600054600160a060020a031681565b600160a060020a03331660009081526001602052604090208054820190555b505600a165627a7a723058200652a8c471ae868dbf25d17b782b7b9dc83fe7b68c3ce85ab21aeea343da0ae10029",
+  "networks": {
+    "1503028115369": {
+      "events": {},
+      "links": {},
+      "address": "0xfc7e9e36811cf9ce3919bd3ae62dc33b056508aa",
+      "updated_at": 1503028121635
+    },
+    "1503160474517": {
+      "events": {},
+      "links": {},
+      "address": "0xe647498e944f9f8e88a626f3b64c306030447190",
+      "updated_at": 1503160480466
+    },
+    "1503160773660": {
+      "events": {},
+      "links": {},
+      "address": "0xafe169bb7926e8fc8a4b471815bf98ac41eabf6d",
+      "updated_at": 1503160780655
+    }
+  },
+  "schema_version": "0.0.5",
+  "updated_at": 1503163476092
+}
