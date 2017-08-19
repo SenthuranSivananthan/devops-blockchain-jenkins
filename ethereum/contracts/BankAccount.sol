@@ -12,11 +12,6 @@ contract BankAccount {
         owner = msg.sender;
     }
 
-    function setBalance(uint256 amount) returns (bool success) {
-        balances[msg.sender] = amount;
-        return true;
-    }
-
     function deposit(uint256 amount) returns (bool success) {
         balances[msg.sender] += amount;
         return true;
