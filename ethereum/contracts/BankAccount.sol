@@ -18,7 +18,7 @@ contract BankAccount {
     }
 
     function withdraw(uint256 amount) returns (bool success) {
-        if (balances[msg.sender] - amount > 0) {
+        if (balances[msg.sender] >= amount) {
             balances[msg.sender] -= amount;
             return true;
         }
