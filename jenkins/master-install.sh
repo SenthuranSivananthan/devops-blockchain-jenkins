@@ -8,9 +8,12 @@ update_system()
 install_dev_tools()
 {
     apt-get install -y default-jdk
-
-    apt-get install -y jenkins
     apt-get install -y git
+    
+    wget -q -O - https://pkg.jenkins.io/debian-stable/jenkins.io.key | sudo apt-key add -
+    echo deb http://pkg.jenkins.io/debian-stable binary/ | sudo tee /etc/apt/sources.list.d/jenkins.list
+    apt-get update
+    apt-get install -y jenkins
 
     apt-get install -y python-software-properties
     curl -sL https://deb.nodesource.com/setup_7.x | sudo -E bash -
@@ -33,3 +36,6 @@ update_system
 install_dev_tools
 install_ethereum_tools
 echo "Installation Complete."
+
+echo "Starting Jenkins"
+systemctl start jenkins
