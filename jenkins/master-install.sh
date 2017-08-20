@@ -7,6 +7,8 @@ update_system()
 
 install_dev_tools()
 {
+    apt-get install -y default-jdk
+
     apt-get install -y jenkins
     apt-get install -y git
 
