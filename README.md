@@ -61,6 +61,7 @@ You should now have a few directories & files:
 
 * contracts/ - stores all Smart Contracts
 * tests/ - stores all test cases
+* migration/ - contracts that allow for deploying Smart Contracts to Blockchain
 * truffle.js - truffle configuration file
 
 The Smart Contracts are written in (Solidity)[http://solidity.readthedocs.io/en/develop/introduction-to-smart-contracts.html] and will store the files with *.sol* extension.  There are example test cases written in Solidity (*.sol* extension) and Mocha (*.js* extension).  The choice of the language is up to you.
