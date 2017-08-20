@@ -44,5 +44,50 @@ npm install -g mocha
 npm install -g mocha-junit-reporter
 ```
 
+## Using Truffle Framework
+
+An example Smart Contract and it's corresponding integration tests are located in the (ethereum folder)[ethereum].
+
+### To initialize a new project
+
+```bash
+
+cd <project directory>
+truffle init
+
+```
+
+You should now have a few directories & files:
+
+* contracts/ - stores all Smart Contracts
+* tests/ - stores all test cases
+* truffle.js - truffle configuration file
+
+The Smart Contracts are written in (Solidity)[http://solidity.readthedocs.io/en/develop/introduction-to-smart-contracts.html] and will store the files with *.sol* extension.  There are example test cases written in Solidity (*.sol* extension) and Mocha (*.js* extension).  The choice of the language is up to you.
+
+### Executing Integration Tests
+
+You can run the integration tests against your own new project or the example Smart Contract(s) located in this project.
+
+```bash
+
+cd <project directory>
+
+# Start testrpc in the background and save the pid.  You can set this up on another terminal as well.
+testrpc &
+echo $! >> testrpc.pid
+
+# Run the tests
+truffle test
+
+# Stop testrpc
+kill -9 `cat testrpc.pid`
+
+```
+
+### Exporting Integration Test Results
+
+You can export the integration tests into multiple formats.  For our scenario, I'm using JUnit Reporter so that it can be read by Jenkins.  The configuration is located in *truffle-jenkins.js*.  To use this version, rename truffle-jenkins.js to *truffle.js*.
+
 
 More to come ...
