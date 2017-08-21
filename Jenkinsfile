@@ -7,7 +7,8 @@ pipeline {
 
 testrpc &
 
-sleep 2s
+sleep 2s'''
+        sh '''#!/bin/bash
 
 cd ethereum
 
