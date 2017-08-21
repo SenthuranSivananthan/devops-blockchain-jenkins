@@ -115,4 +115,8 @@ And you will be able to drill down into each test case for deeper look.
 
 ![Test Details](docs/images/test-details.PNG "Test Details")
 
+When Smart Contract tests fail, the error information is displayed directly in Jenkins, thus aligning to existing developer testing/workflows:
+
+![Test Failure](docs/images/failed-test-case.PNG "Test Failure")
+
 More to come ...
