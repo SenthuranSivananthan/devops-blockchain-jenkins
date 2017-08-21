@@ -1,22 +1,32 @@
 pipeline {
   agent any
   stages {
-    stage('Test Smart Contracts') {
+    stage('Launch testrpc') {
       steps {
-        sh '''#!/bin/bash
+        parallel(
+          "Launch testrpc": {
+            sh '''#!/bin/bash
 
 testrpc &
 
 sleep 2s'''
-        sh '''#!/bin/bash
-
-cd ethereum
+            
+          },
+          "Test Smart Contracts": {
+            sh '''cd ethereum
 
 rm truffle.js
 mv truffle-jenkins.js truffle.js
 
 truffle test
 '''
+            
+          },
+          "Publish Test Results": {
+            junit 'ethereum/test-results.xml'
+            
+          }
+        )
       }
     }
   }
