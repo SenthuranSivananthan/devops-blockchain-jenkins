@@ -91,4 +91,28 @@ kill -9 `cat testrpc.pid`
 You can export the integration tests into multiple formats.  For our scenario, I'm using JUnit Reporter so that it can be read by Jenkins.  The configuration is located in *truffle-jenkins.js*.  To use this version, rename truffle-jenkins.js to *truffle.js*.
 
 
+# Test Automation
+
+I've chosen to use *Jenkinsfile* to declaratively configure the build pipeline.  This allows for the build definitions to be version controlled along with the source code.
+
+The pipeline is split into 3 stages:
+
+* Launching testrpc
+* Executing Smart Contract tests
+* Publishing test results using JUnit
+
+![Pipeline](docs/images/build-pipeline.PNG "Pipeline")
+
+In the future, we can add additional stages to integrate with the full application stack for end to end testing.  The stages allow for easier monitoring & troubleshooting as builds are executed:
+
+![Build Process](docs/images/build-process.PNG "Build Process")
+
+Since we are using Mocha JUnit Reporter with Truffle, Jenkins is able to process the `test-results.xml` and display the test status as part of the dashboard.
+
+![Test Summary](docs/images/test-status.PNG "Test Summary")
+
+And you will be able to drill down into each test case for deeper look.
+
+![Test Details](docs/images/test-details.PNG "Test Details")
+
 More to come ...
