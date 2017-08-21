@@ -19,7 +19,8 @@ rm truffle.js
 mv truffle-jenkins.js truffle.js
 
 truffle test
-'''
+
+exit 0'''
       }
     }
     stage('Publish Test Results') {
