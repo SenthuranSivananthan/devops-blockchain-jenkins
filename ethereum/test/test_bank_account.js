@@ -53,7 +53,7 @@ contract('BankAccount', function(accounts) {
     }).then(function(){
       return bank.balanceOf.call(account);
     }).then(function(balance) {
-      assert.equal(balance.valueOf(), 1, "Expecting updated value of " + expectedBalance + " in the account.");
+      assert.equal(balance.valueOf(), expectedBalance, "Expecting updated value of " + expectedBalance + " in the account.");
     });
 
     done();
