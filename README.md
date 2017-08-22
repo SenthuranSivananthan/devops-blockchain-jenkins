@@ -1,20 +1,20 @@
 # DevOps for Blockchain using Jenkins
 
-This project is inspired by the work of [Redback and Microsoft teams for developing the process for DevOps using VSTS](https://microsoft.github.io/techcasestudies/redback-devops.html).
+This project is inspired by the work of [Redback and Microsoft teams for developing the process using VSTS](https://microsoft.github.io/techcasestudies/redback-devops.html).
 
-I've chosen to develop a similar DevOps process using Jenkins, Truffle and TestRPC so that we can give choices for our customers.
+I've chosen to develop a similar DevOps process with Jenkins, Truffle and TestRPC so that we can give choices for our customers.
 
-The project contains the components needed to build the build and test pipeline.
+The project contains the components needed to create the test pipeline.
 
 ## Building Jenkins Server
 
-The current version is based on a single instance of Jenkins running on Ubuntu 17.04.  The scripts can be adapted for other Linux distributions as needed.
+The current version is based on a single instance of Jenkins running Ubuntu 17.04.  The scripts can be adapted for other Linux distributions as needed.
 
-The script to automate the deployment is located in the [jenkins folder](jenkins/master-install.sh).  Jenkins installation is split into 2 routines.  First, install the dev tools needed to compile and deploy Java and Node applications such as JDK, Node, npm, Git and Jenkins itself.
+The script to automate the deployment is located at [jenkins/master-install.sh](jenkins/master-install.sh).  Jenkins installation is split into 2 routines.  First, install the dev tools needed to compile and deploy Java and Node applications such as JDK, Node, npm, Git and Jenkins itself.
 
-Followed by tools needed for running Ethereum locally on the Jenkins server.  Here, we'll be using [Truffle Framework](http://truffleframework.com/) for writing contracts, integration tests and running tests.  [testrpc](https://github.com/ethereumjs/testrpc) will provide an in-memory blockchain environment that's fast and predictable.
+Followed by tools needed for running Ethereum locally on the Jenkins server.  We'll be using [Truffle Framework](http://truffleframework.com/) for writing contracts, integration tests and running tests.  [testrpc](https://github.com/ethereumjs/testrpc) will provide an in-memory blockchain environment that's fast and predictable.
 
-I've chosen to write the tests in [Mocha](https://mochajs.org/) as it's a versatile framework that can be used not just for Smart Contracts, but for integration testing across the entire application stack allowing the developers to learn less and do more.  The results are written into XML using the Mocha JUnit Reporter.  The XML results can then be pulled into Jenkins as part of the build report.
+I've chosen to write the tests in [Mocha](https://mochajs.org/) as it's a versatile framework that can be used not just for Smart Contracts, but for integration testing across the entire application stack, thus allowing the developers to learn less and do more.  The results are written into XML using the Mocha JUnit Reporter.  The XML results can then be pulled into Jenkins as part of the build process.
 
 ### Install Dev Tools
 
@@ -46,7 +46,7 @@ npm install -g mocha-junit-reporter
 
 ## Using Truffle Framework
 
-An example Smart Contract and it's corresponding integration tests are located in the (ethereum folder)[ethereum].
+An example Smart Contract and it's corresponding integration tests are located in the (/ethereum)[/ethereum].
 
 ### To initialize a new project
 
@@ -88,7 +88,35 @@ kill -9 `cat testrpc.pid`
 
 ### Exporting Integration Test Results
 
-You can export the integration tests into multiple formats.  For our scenario, I'm using JUnit Reporter so that it can be read by Jenkins.  The configuration is located in *truffle-jenkins.js*.  To use this version, rename truffle-jenkins.js to *truffle.js*.
+You can export the integration tests into multiple formats.  For this project, I'm using JUnit Reporter so that it can be read by Jenkins.  The configuration is located in *truffle-jenkins.js*.  To use this version, rename truffle-jenkins.js to *truffle.js*.
 
+
+# Test Automation
+
+I've chosen to use *Jenkinsfile* to declaratively configure the build pipeline.  This allows for the build definitions to be version controlled along with the source code.
+
+The pipeline is split into 3 stages:
+
+* Launching testrpc
+* Executing Smart Contract tests
+* Publishing test results using JUnit
+
+![Pipeline](docs/images/build-pipeline.PNG "Pipeline")
+
+In the future, we can add additional stages to integrate with the full application stack for end to end testing.  The stages allow for easier monitoring & troubleshooting as builds are executed:
+
+![Build Process](docs/images/build-process.PNG "Build Process")
+
+Since we are using Mocha JUnit Reporter with Truffle, Jenkins is able to process the `test-results.xml` and display the test status as part of the dashboard.
+
+![Test Summary](docs/images/test-status.PNG "Test Summary")
+
+And you will be able to drill down into each test case for deeper look.
+
+![Test Details](docs/images/test-details.PNG "Test Details")
+
+When Smart Contract tests fail, the error information is displayed directly in Jenkins, thus aligning to existing developer testing/workflows:
+
+![Test Failure](docs/images/failed-test-case.PNG "Test Failure")
 
 More to come ...
