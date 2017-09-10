@@ -187,7 +187,7 @@
                         "autoUpgradeMinorVersion": true,
                         "settings": {
                             "fileUris": [
-                                "https://raw.githubusercontent.com/SenthuranSivananthan/devops-blockchain-jenkins/master/jenkins/master-install.sh"
+                                "https://raw.githubusercontent.com/SenthuranSivananthan/devops-blockchain-jenkins/master/jenkins/install-jenkins-master-ubuntu.sh"
                             ],
                             "commandToExecute": "sh master-install.sh"
                         }
