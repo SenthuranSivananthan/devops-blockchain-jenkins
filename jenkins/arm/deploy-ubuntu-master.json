@@ -1,0 +1,200 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "vmUsername": {
+            "type": "string",
+            "minLength": 5
+        },
+        "vmPassword": {
+            "type": "securestring",
+            "minLength": 12
+        }
+    },
+    "variables": {
+        "jenkinsMasterVMSku": "Standard_DS1"
+    },
+    "resources": [
+        {
+            "name": "nsg-jenkins",
+            "type": "Microsoft.Network/networkSecurityGroups",
+            "apiVersion": "2017-03-01",
+            "location": "[resourceGroup().location]",
+            "properties": {
+                "securityRules": [
+                    {
+                        "name": "ssh",
+                        "properties": {
+                            "description": "Allow SSH",
+                            "protocol": "Tcp",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "22",
+                            "sourceAddressPrefix": "Internet",
+                            "destinationAddressPrefix": "*",
+                            "access": "Allow",
+                            "priority": 100,
+                            "direction": "Inbound"
+                        }
+                    },
+                    {
+                        "name": "jenkins",
+                        "properties": {
+                            "description": "Allow Jenkins",
+                            "protocol": "Tcp",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "8080",
+                            "sourceAddressPrefix": "Internet",
+                            "destinationAddressPrefix": "*",
+                            "access": "Allow",
+                            "priority": 110,
+                            "direction": "Inbound"
+                        }
+                    }
+                ]
+            },
+            "resources": []
+        },
+        {
+            "apiVersion": "2017-03-01",
+            "type": "Microsoft.Network/publicIPAddresses",
+            "name": "pip-jenkins-master",
+            "location": "[resourceGroup().location]",
+            "properties": {
+                "publicIPAllocationMethod": "Dynamic"
+            }
+        },
+        {
+            "apiVersion": "2017-03-01",
+            "type": "Microsoft.Network/virtualNetworks",
+            "name": "vnet",
+            "location": "[resourceGroup().location]",
+            "dependsOn": [
+                "Microsoft.Network/networkSecurityGroups/nsg-jenkins"
+            ],
+            "properties": {
+                "addressSpace": {
+                    "addressPrefixes": [
+                        "10.0.0.0/16"
+                    ]
+                },
+                "subnets": [
+                    {
+                        "name": "jenkins",
+                        "properties": {
+                            "addressPrefix": "10.0.1.0/24",
+                            "networkSecurityGroup": {
+                                "id": "[resourceId('Microsoft.Network/networkSecurityGroups/', 'nsg-jenkins')]"
+                            }
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "name": "avset-jenkins-master",
+            "type": "Microsoft.Compute/availabilitySets",
+            "apiVersion": "2017-03-30",
+            "location": "[resourceGroup().location]",
+            "properties": {
+                "platformUpdateDomainCount": "5",
+                "platformFaultDomainCount": "3"
+            },
+            "sku": {
+                "name": "Aligned"
+            }
+        },
+        {
+            "apiVersion": "2017-03-01",
+            "type": "Microsoft.Network/networkInterfaces",
+            "name": "nic-jenkins-master",
+            "location": "[resourceGroup().location]",
+            "dependsOn": [
+                "Microsoft.Network/virtualNetworks/vnet"
+            ],
+            "properties": {
+                "ipConfigurations": [
+                    {
+                        "name": "ipconfig1",
+                        "properties": {
+                            "privateIPAllocationMethod": "Dynamic",
+                            "subnet": {
+                                "id": "[concat(resourceId('Microsoft.Network/virtualNetworks', 'vnet'), '/subnets/jenkins')]"
+                            },
+                            "publicIPAddress": {
+                                "id": "[concat(resourceId('Microsoft.Network/publicIPAddresses', 'pip-jenkins-master'))]"
+                            }
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "apiVersion": "2017-03-30",
+            "type": "Microsoft.Compute/virtualMachines",
+            "name": "vm-jenkins-master",
+            "location": "[resourceGroup().location]",
+            "dependsOn": [
+                "Microsoft.Network/networkInterfaces/nic-jenkins-master"
+            ],
+            "properties": {
+                "hardwareProfile": {
+                    "vmSize": "[variables('jenkinsMasterVMSku')]"
+                },
+                "osProfile": {
+                    "computerName": "vm-jenkins-master",
+                    "adminUsername": "[parameters('vmUsername')]",
+                    "adminPassword": "[parameters('vmPassword')]"
+                },
+                "storageProfile": {
+                    "imageReference": {
+                        "publisher": "Canonical",
+                        "offer": "UbuntuServer",
+                        "sku": "17.04",
+                        "version": "latest"
+                    },
+                    "osDisk": {
+                        "caching": "ReadWrite",
+                        "createOption": "FromImage",
+                        "managedDisk": {
+                            "storageAccountType": "Premium_LRS"
+                        }
+                    }
+                },
+                "networkProfile": {
+                    "networkInterfaces": [
+                        {
+                            "id": "[resourceId('Microsoft.Network/networkInterfaces', 'nic-jenkins-master')]"
+                        }
+                    ]
+                },
+                "availabilitySet": {
+                    "id": "[resourceId('Microsoft.Compute/availabilitySets', 'avset-jenkins-master')]"
+                }
+            },
+            "resources": [
+                {
+                    "name": "InstallJenkinsMaster",
+                    "type": "extensions",
+                    "location": "[resourceGroup().location]",
+                    "apiVersion": "2017-03-30",
+                    "dependsOn": [
+                        "Microsoft.Compute/virtualMachines/vm-jenkins-master"
+                    ],
+                    "properties": {
+                        "publisher": "Microsoft.Azure.Extensions",
+                        "type": "CustomScript",
+                        "typeHandlerVersion": "2.0",
+                        "autoUpgradeMinorVersion": true,
+                        "settings": {
+                            "fileUris": [
+                                "https://raw.githubusercontent.com/SenthuranSivananthan/devops-blockchain-jenkins/master/jenkins/master-install.sh"
+                            ],
+                            "commandToExecute": "sh master-install.sh"
+                        }
+                    }
+                }
+            ]
+        }
+    ],
+    "outputs": {}
+}
