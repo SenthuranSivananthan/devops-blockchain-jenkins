@@ -48,6 +48,37 @@ wget https://github.com/web3j/web3j/releases/download/v2.3.1/web3j-2.3.1.tar -O 
 tar -xf /tmp/web3j.tar --directory /opt/ethereum/web3j --strip-components=1
 ```
 
+### Install Jenkins and Tools using Azure Resource Manager (ARM) Template
+
+The full VM deployment and configuration can be automated through an ARM template.  The template is located in [/jenkins/arm/deploy-ubuntu-master.json](/jenkins/arm/deploy-ubuntu-master.json).  This template will:
+
+* Setup a new virtual network, subnet, network security groups
+* Deploy an Azure Marketplace Ubuntu 17.04 VM with public IP address
+* Install Jenkins, Dev Tools and Ethereum Tools - this script is located in [/jenkins/install-jenkins-master-ubuntu.sh](/jenkins/install-jenkins-master-ubuntu.sh)
+
+You can customize the ARM template such that it can be:
+
+* Deployed into an existing environment
+* Restrict access through network security groups
+* Replace username/password for the VM with SSH Keys
+
+#### To deploy using Azure Portal
+
+* Login to Azure Portal
+* From the left ribbon, search for Templates
+* Create a new template
+* Copy & Paste the contents of the JSON file
+* Save
+* Click Deploy, follow the prompts to completion
+
+#### To deploy through Azure CLI
+
+Coming soon
+
+#### To deploy through PowerShell
+
+Coming soon
+
 ## Using Truffle Framework
 
 An example Smart Contract and it's corresponding integration tests are located in the (/ethereum)[/ethereum].
