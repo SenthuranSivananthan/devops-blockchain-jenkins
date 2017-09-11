@@ -12,14 +12,14 @@ contract BankAccount {
         owner = msg.sender;
     }
 
-    function deposit(uint256 amount) returns (bool success) {
-        balances[msg.sender] += amount;
+    function deposit(address accountHolder, uint256 amount) returns (bool success) {
+        balances[accountHolder] += amount;
         return true;
     }
 
-    function withdraw(uint256 amount) returns (bool success) {
-        if (balances[msg.sender] >= amount) {
-            balances[msg.sender] -= amount;
+    function withdraw(address accountHolder, uint256 amount) returns (bool success) {
+        if (balances[accountHolder] >= amount) {
+            balances[accountHolder] -= amount;
             return true;
         }
 

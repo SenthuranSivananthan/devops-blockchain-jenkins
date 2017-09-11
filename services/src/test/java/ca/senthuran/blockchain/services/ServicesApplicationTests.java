@@ -18,6 +18,7 @@ import org.web3j.protocol.http.HttpService;
 import org.web3j.tx.ClientTransactionManager;
 import org.web3j.tx.Contract;
 
+import ca.senthuran.blockchain.smartcontracts.wrapper.BankAccount;
 import ca.senthuran.blockchain.smartcontracts.wrapper.BankAccountContract;
 
 @RunWith(SpringRunner.class)
@@ -29,7 +30,7 @@ public class ServicesApplicationTests {
 	private Web3j web3j = null;
 	private ClientTransactionManager txManager = null;
 
-	private BankAccountContract bankAccountContract = null;
+	private BankAccount bankAccountContract = null;
 
 	private String mainAccountAddress = null;
 
@@ -45,13 +46,13 @@ public class ServicesApplicationTests {
 
 		// deploy the contract
 		txManager = new ClientTransactionManager(web3j, mainAccountAddress);
-		bankAccountContract = BankAccountContract.deploy(web3j, txManager, GAS_PRICE, GAS_LIMIT, BigInteger.valueOf(0))
+		bankAccountContract = BankAccount.deploy(web3j, txManager, GAS_PRICE, GAS_LIMIT, BigInteger.valueOf(0))
 				.get();
 	}
 
 	@Test
 	public void testAccountDeposit() throws Exception {
-		bankAccountContract.deposit(new Uint256(100));
+		bankAccountContract.deposit(new Address(mainAccountAddress), new Uint256(100));
 		Assert.assertEquals(100,
 				bankAccountContract.balanceOf(new Address(mainAccountAddress)).get().getValue().intValue());
 	}

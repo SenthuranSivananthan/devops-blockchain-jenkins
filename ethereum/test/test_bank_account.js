@@ -13,7 +13,7 @@ contract('BankAccount', function(accounts) {
     var amount = 100;
     var account = accounts[0];
 
-    return bank.deposit(amount, {from: account}).then(function() {
+    return bank.deposit(account, amount).then(function() {
       return bank.balanceOf.call(account);
     }).then(function(balance) {
       assert.equal(balance.valueOf(), amount, "Expecting " + amount + " as the balance for account.");      
@@ -27,8 +27,8 @@ contract('BankAccount', function(accounts) {
     var depositAmount = 50;
     var withdrawalAmount  = 100;
 
-    return bank.deposit(depositAmount, {from: account}).then(function() {
-      return bank.withdraw(withdrawalAmount, {from: account});
+    return bank.deposit(account, depositAmount).then(function() {
+      return bank.withdraw(account, withdrawalAmount);
     }).then(function(){
       return bank.balanceOf.call(account);
     }).then(function(balance) {
@@ -44,12 +44,12 @@ contract('BankAccount', function(accounts) {
     var withdrawalAmount = 50;
     var expectedBalance = 50;
 
-    return bank.deposit(depositAmount, {from: account}).then(function(){
+    return bank.deposit(account, depositAmount).then(function(){
       return bank.balanceOf.call(account);
     }).then(function(balance) {
       assert.equal(balance.valueOf(), depositAmount, "Expecting initial value of " + depositAmount + " in the account.");
     }).then(function() {
-      return bank.withdraw(withdrawalAmount, {from: account});
+      return bank.withdraw(account, withdrawalAmount);
     }).then(function(){
       return bank.balanceOf.call(account);
     }).then(function(balance) {
