@@ -73,7 +73,27 @@ You can customize the ARM template such that it can be:
 
 #### To deploy through Azure CLI
 
-Coming soon
+[Download & install Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest)
+
+```bash
+# Start CLI in interactive mode & login
+az interactive --style none
+az login
+
+# Create a Resource Group
+az group create -l eastus -n blockchain-jenkins
+
+# Deploy ARM template & enter the VM Username & Password
+az group deployment create --resource-group blockchain-jenkins --template-uri https://raw.githubusercontent.com/SenthuranSivananthan/devops-blockchain-jenkins/master/jenkins/arm/deploy-ubuntu-master.json
+```
+Wait about 10 minutes for the deployment process to complete.
+
+```bash
+# Retrieve the Public IP address of the Jenkins Server
+az network public-ip show --resource-group blockchain-jenkins --name pip-jenkins-master
+```
+
+Access Jenkins via http://<public ip>:8080/
 
 #### To deploy through PowerShell
 
