@@ -1,4 +1,4 @@
-package com.microsoft.blockchain.services.models;
+package ca.senthuran.blockchain.services.models;
 
 public class Account {
 	private String address;

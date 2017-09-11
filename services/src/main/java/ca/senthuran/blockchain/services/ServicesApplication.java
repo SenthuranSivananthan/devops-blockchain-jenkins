@@ -1,4 +1,4 @@
-package com.microsoft.blockchain.services;
+package ca.senthuran.blockchain.services;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
