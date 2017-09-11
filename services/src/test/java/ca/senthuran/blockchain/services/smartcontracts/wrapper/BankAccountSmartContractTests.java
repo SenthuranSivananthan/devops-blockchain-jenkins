@@ -1,4 +1,4 @@
-package ca.senthuran.blockchain.services;
+package ca.senthuran.blockchain.services.smartcontracts.wrapper;
 
 import java.io.IOException;
 import java.math.BigInteger;
@@ -14,6 +14,7 @@ import org.web3j.abi.datatypes.Address;
 import org.web3j.abi.datatypes.generated.Uint256;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.core.methods.response.EthAccounts;
+import org.web3j.protocol.core.methods.response.TransactionReceipt;
 import org.web3j.protocol.http.HttpService;
 import org.web3j.tx.ClientTransactionManager;
 import org.web3j.tx.Contract;
@@ -22,7 +23,7 @@ import ca.senthuran.blockchain.smartcontracts.wrapper.BankAccount;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class ServicesApplicationTests {
+public class BankAccountSmartContractTests {
 	static final BigInteger GAS_PRICE = Contract.GAS_PRICE;
 	static final BigInteger GAS_LIMIT = Contract.GAS_LIMIT;
 
@@ -51,7 +52,25 @@ public class ServicesApplicationTests {
 
 	@Test
 	public void testAccountDeposit() throws Exception {
-		bankAccountContract.deposit(new Address(mainAccountAddress), new Uint256(100));
+		bankAccountContract.deposit(new Address(mainAccountAddress), new Uint256(100)).get();
+		Assert.assertEquals(100,
+				bankAccountContract.balanceOf(new Address(mainAccountAddress)).get().getValue().intValue());
+	}
+	
+	@Test
+	public void testAccountWithdrawalBelowBalance() throws Exception {
+		bankAccountContract.deposit(new Address(mainAccountAddress), new Uint256(100)).get();
+		bankAccountContract.withdraw(new Address(mainAccountAddress), new Uint256(25)).get();
+		
+		Assert.assertEquals(75,
+				bankAccountContract.balanceOf(new Address(mainAccountAddress)).get().getValue().intValue());
+	}
+	
+	@Test
+	public void testAccountWithdrawalOverBalance() throws Exception {
+		bankAccountContract.deposit(new Address(mainAccountAddress), new Uint256(100)).get();
+		bankAccountContract.withdraw(new Address(mainAccountAddress), new Uint256(150)).get();
+		
 		Assert.assertEquals(100,
 				bankAccountContract.balanceOf(new Address(mainAccountAddress)).get().getValue().intValue());
 	}
