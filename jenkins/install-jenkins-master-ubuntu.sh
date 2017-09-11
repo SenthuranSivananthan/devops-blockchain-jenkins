@@ -7,7 +7,7 @@ update_system()
 
 install_dev_tools()
 {
-    apt-get install -y default-jdk
+    apt-get install -y openjdk-8-jdk-headless
     apt-get install -y git
     
     wget -q -O - https://pkg.jenkins.io/debian-stable/jenkins.io.key | sudo apt-key add -
