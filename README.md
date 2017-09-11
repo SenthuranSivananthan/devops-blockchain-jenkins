@@ -50,11 +50,11 @@ tar -xf /tmp/web3j.tar --directory /opt/ethereum/web3j --strip-components=1
 
 ### Install Jenkins and Tools using Azure Resource Manager (ARM) Template
 
-The full VM deployment and configuration can be automated through an ARM template.  The template is located in [/jenkins/arm/deploy-ubuntu-master.json](/jenkins/arm/deploy-ubuntu-master.json).  This template will:
+The full VM deployment and configuration can be automated through an ARM template.  The template is located in [jenkins/arm/deploy-ubuntu-master.json](/jenkins/arm/deploy-ubuntu-master.json).  This template will:
 
 * Setup a new virtual network, subnet, network security groups
 * Deploy an Azure Marketplace Ubuntu 17.04 VM with public IP address
-* Install Jenkins, Dev Tools and Ethereum Tools - this script is located in [/jenkins/install-jenkins-master-ubuntu.sh](/jenkins/install-jenkins-master-ubuntu.sh)
+* Install Jenkins, Dev Tools and Ethereum Tools - this script is located in [jenkins/install-jenkins-master-ubuntu.sh](/jenkins/install-jenkins-master-ubuntu.sh)
 
 You can customize the ARM template such that it can be:
 
@@ -93,7 +93,7 @@ Wait about 10 minutes for the deployment process to complete.
 az network public-ip show --resource-group blockchain-jenkins --name pip-jenkins-master
 ```
 
-Access Jenkins via http://<public ip>:8080/
+Access Jenkins via http://[public ip]:8080/
 
 #### To deploy through PowerShell
 
