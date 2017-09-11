@@ -49,6 +49,34 @@
                             "priority": 110,
                             "direction": "Inbound"
                         }
+                    },
+                    {
+                        "name": "github-vip-1",
+                        "properties": {
+                            "description": "Allow GitHub Public IP",
+                            "protocol": "Tcp",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "8080",
+                            "sourceAddressPrefix": "192.30.252.0/22",
+                            "destinationAddressPrefix": "*",
+                            "access": "Allow",
+                            "priority": 120,
+                            "direction": "Inbound"
+                        }
+                    },
+                    {
+                        "name": "github-vip-2",
+                        "properties": {
+                            "description": "Allow GitHub Public IP",
+                            "protocol": "Tcp",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "8080",
+                            "sourceAddressPrefix": "185.199.108.0/22",
+                            "destinationAddressPrefix": "*",
+                            "access": "Allow",
+                            "priority": 121,
+                            "direction": "Inbound"
+                        }
                     }
                 ]
             },
