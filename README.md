@@ -19,7 +19,7 @@ I've chosen to write the tests in [Mocha](https://mochajs.org/) as it's a versat
 ### Install Dev Tools
 
 ```bash
-apt-get install -y default-jdk
+apt-get install -y openjdk-8-jdk-headless
 apt-get install -y git
 
 wget -q -O - https://pkg.jenkins.io/debian-stable/jenkins.io.key | sudo apt-key add -
@@ -42,6 +42,10 @@ npm install -g solc
 npm install -g truffle
 npm install -g mocha
 npm install -g mocha-junit-reporter
+
+mkdir -p /opt/ethereum/web3j
+wget https://github.com/web3j/web3j/releases/download/v2.3.1/web3j-2.3.1.tar -O /tmp/web3j.tar
+tar -xf /tmp/web3j.tar --directory /opt/ethereum/web3j --strip-components=1
 ```
 
 ## Using Truffle Framework
