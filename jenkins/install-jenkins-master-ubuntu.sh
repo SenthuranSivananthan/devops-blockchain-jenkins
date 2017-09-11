@@ -29,6 +29,10 @@ install_ethereum_tools()
     npm install -g truffle
     npm install -g mocha
     npm install -g mocha-junit-reporter
+
+    mkdir -p /opt/ethereum/web3j
+    wget https://github.com/web3j/web3j/releases/download/v2.3.1/web3j-2.3.1.tar -O /tmp/web3j.tar
+    tar -xf /tmp/web3j.tar --directory /opt/ethereum/web3j --strip-components=1
 }
 
 echo "Installing Tooling ..."
