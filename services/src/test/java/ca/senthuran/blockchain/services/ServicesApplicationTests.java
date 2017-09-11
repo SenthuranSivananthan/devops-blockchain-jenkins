@@ -1,4 +1,4 @@
-package com.microsoft.blockchain.services;
+package ca.senthuran.blockchain.services;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
