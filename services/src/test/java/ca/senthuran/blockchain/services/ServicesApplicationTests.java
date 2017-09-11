@@ -19,7 +19,6 @@ import org.web3j.tx.ClientTransactionManager;
 import org.web3j.tx.Contract;
 
 import ca.senthuran.blockchain.smartcontracts.wrapper.BankAccount;
-import ca.senthuran.blockchain.smartcontracts.wrapper.BankAccountContract;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
